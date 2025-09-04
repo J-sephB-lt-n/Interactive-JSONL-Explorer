@@ -1,0 +1,15 @@
+# Ignore Paths
+/node_modules
+/dist
+/.vscode
+/coverage
+/public
+/storybook-static
+
+# Ignore Files
+*.html
+*.css
+*.md
+
+# Ignore specific folders in src
+/src/workers
