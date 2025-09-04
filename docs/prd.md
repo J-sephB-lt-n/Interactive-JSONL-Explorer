@@ -1,8 +1,8 @@
 # Interactive JSONL Explorer Product Requirements Document (PRD)
 
-### 1. Goals and Background Context
+## 1. Goals and Background Context
 
-#### 1.1 Goals
+### 1.1 Goals
 
 *   Deliver a slick, aesthetic, and intuitive user interface.
 *   Package the entire application as a single HTML file with minimal dependencies.
@@ -11,21 +11,21 @@
 *   Enable powerful filtering of JSON entries using flexible AND/OR combinations across any field.
 *   Display filtered JSON entries in a clean, well-formatted, and easily readable view.
 
-#### 1.2 Background Context
+### 1.2 Background Context
 
 The "Interactive JSONL Explorer" is designed to address the challenges developers and product managers face when analyzing structured logs and traces stored in JSONL format. Often, exploring these files requires custom scripts or cumbersome command-line tools, which hinders rapid exploration and debugging. This project aims to provide a streamlined, user-friendly, and aesthetically pleasing in-browser tool that simplifies this process.
 
 By allowing users to upload multiple JSONL files and offering a powerful, intuitive interface for filtering and viewing the data, the explorer will significantly speed up the process of debugging application logs and gaining insights from application behavior. The primary users are developers needing to quickly diagnose issues and product managers seeking to understand application usage patterns through log data.
 
-#### 1.3 Change Log
+### 1.3 Change Log
 
 | Date       | Version | Description   | Author     |
 | :--------- | :------ | :------------ | :--------- |
 | 2024-07-29 | 0.1     | Initial draft | John (PM)  |
 
-### 2. Requirements
+## 2. Requirements
 
-#### 2.1 Functional Requirements
+### 2.1 Functional Requirements
 
 *   **FR1:** The application must be delivered as a single, self-contained HTML file.
 *   **FR2:** Users must be able to upload one or more JSONL files simultaneously.
@@ -40,7 +40,7 @@ By allowing users to upload multiple JSONL files and offering a powerful, intuit
 *   **FR11:** The application must display a list of JSON entries that match the user-defined filter query.
 *   **FR12:** The displayed JSON entries must be aesthetically formatted for readability, including collapsible indentation for nested objects/arrays and syntax highlighting.
 
-#### 2.2 Non-Functional Requirements
+### 2.2 Non-Functional Requirements
 
 *   **NFR1:** The application must have minimal external dependencies to adhere to the single-file architecture.
 *   **NFR2:** The user interface must be slick, modern, and intuitive, adhering to a dark theme.
@@ -48,67 +48,67 @@ By allowing users to upload multiple JSONL files and offering a powerful, intuit
 *   **NFR4:** The application must handle files with varied and inconsistent schemas gracefully, without errors.
 *   **NFR5:** The application must remain responsive and performant when processing large JSONL files (e.g., up to 100MB).
 
-### 3. User Interface Design Goals
+## 3. User Interface Design Goals
 
-#### 3.1 Overall UX Vision
+### 3.1 Overall UX Vision
 
 The application's user experience should be minimalist, intuitive, and highly functional, reflecting a professional tool for developers. The vision is to create an interface that is "discoverable," where new users can quickly understand its capabilities without a manual. The dark theme will be sophisticated, using typography and spacing to ensure clarity and reduce eye strain during long sessions. The overall feel should be fast, responsive, and efficient.
 
-#### 3.2 Key Interaction Paradigms
+### 3.2 Key Interaction Paradigms
 
 *   **Layout:** A three-pane layout will form the core of the interface: a left sidebar for file management and schema discovery, a central top area for the query builder, and a main content area below for displaying results.
 *   **File Upload:** A prominent drag-and-drop zone and a clear "Upload Files" button will be present in the initial state and accessible later.
 *   **Query Building:** An interactive, dynamic query builder will allow users to add/remove filter conditions. Each condition will consist of a key selector (dropdown of discovered keys), an operator selector (e.g., `equals`, `contains`), and a value input field.
 *   **Results Display:** Results will be displayed in a paginated or virtualized list to handle large numbers of entries. Each JSON object will be presented in a collapsible, syntax-highlighted tree view.
 
-#### 3.3 Core Screens and Views
+### 3.3 Core Screens and Views
 
 As a single-page application, the experience is defined by states rather than screens:
 *   **Empty State:** The initial view of the application, featuring a clear call-to-action to upload JSONL files.
 *   **Active State:** The main workspace view, displayed after files are loaded. This state contains the schema explorer, query builder, and results panel.
 
-#### 3.4 Accessibility: WCAG AA
+### 3.4 Accessibility: WCAG AA
 
 The application will adhere to Web Content Accessibility Guidelines (WCAG) 2.1 Level AA standards. This includes ensuring sufficient color contrast, keyboard navigability for all interactive elements, and appropriate ARIA attributes.
 
-#### 3.5 Branding
+### 3.5 Branding
 
 Branding will be minimal and professional. The aesthetic will be "Operator Dark"—a clean, dark-themed interface that prioritizes content and functionality. The focus will be on excellent typography, consistent iconography, and a limited, purposeful color palette. No logo or specific brand identity is required at this stage.
 
-#### 3.6 Target Device and Platforms: Web Responsive
+### 3.6 Target Device and Platforms: Web Responsive
 
 The application will be a responsive web application designed primarily for desktop browsers (Chrome, Firefox, Safari, Edge). While it should be functional on mobile browsers, the UI will be optimized for the screen real estate and input methods of a desktop environment.
 
-### 4. Technical Assumptions
+## 4. Technical Assumptions
 
-#### 4.1 Repository Structure: Monorepo
+### 4.1 Repository Structure: Monorepo
 
 A single repository (`Monorepo`) is the most logical choice for this project, as it consists of one self-contained application. This simplifies version control, issue tracking, and the build process.
 
-#### 4.2 Service Architecture: Monolith (Client-Side)
+### 4.2 Service Architecture: Monolith (Client-Side)
 
 The architecture will be a client-side `Monolith`. All application logic, including file parsing, data processing, and rendering, will be executed entirely within the user's browser. This aligns with the "no backend server" and "data privacy" requirements.
 
-#### 4.3 Testing Requirements: Unit + Integration
+### 4.3 Testing Requirements: Unit + Integration
 
 The testing strategy should include both `Unit tests` for individual functions (e.g., query logic, parsers) and `Integration tests` to verify that components work together correctly (e.g., file upload triggers parsing and updates the UI). This provides a solid balance of speed and confidence.
 
-#### 4.4 Additional Technical Assumptions and Requests
+### 4.4 Additional Technical Assumptions and Requests
 
 *   **Language & Framework:** The application should be built using vanilla **JavaScript (ES6+), HTML5, and CSS3** without any major frontend frameworks (like React, Vue, or Angular). This approach is the most direct way to achieve the "minimal dependencies" and "single HTML file" requirements.
 *   **Build Process:** A lightweight build tool (such as **Vite** or **Parcel**) will be necessary to bundle the JavaScript and CSS and inline them into a single `index.html` file for distribution.
 *   **Libraries:** Any third-party libraries should be carefully vetted for size and dependencies. The default assumption is **zero external runtime libraries**, but the Architect may select micro-libraries for specific, complex tasks (e.g., a highly optimized JSON parser or a virtual scrolling library) if the performance benefits justify the added dependency.
 *   **Deployment Target:** The final output is a single HTML file that can be hosted on any static web hosting service (e.g., GitHub Pages, Netlify, Vercel) or opened directly from a local filesystem.
 
-### 5. Epic List
+## 5. Epic List
 
 *   **Epic 1: Foundation & Core File Handling:** Establish the foundational UI, project structure, build process, and the core functionality for uploading, parsing, and storing JSONL files in the browser.
 *   **Epic 2: Schema Discovery & Query Builder UI:** Implement the logic to discover the complete, nested schema from all loaded files and provide the user with a fully interactive UI to construct complex filter queries.
 *   **Epic 3: Data Filtering & Results Display:** Implement the client-side filtering engine to execute user-defined queries against the loaded data and display the results in a formatted, paginated, and aesthetically pleasing view.
 
-### 6. Epic Details
+## 6. Epic Details
 
-#### Epic 1: Foundation & Core File Handling
+### Epic 1: Foundation & Core File Handling
 
 **Goal:** The goal of this epic is to establish the complete foundational structure of the application. This includes setting up the development environment, the build process to generate the single HTML file, and implementing the core UI layout. It will also deliver the essential functionality of allowing a user to upload JSONL files via both a file picker and drag-and-drop, and have those files parsed and stored in memory, ready for the next epic.
 
@@ -174,7 +174,7 @@ The testing strategy should include both `Unit tests` for individual functions (
 5.  Each stored object is augmented with metadata indicating its source filename.
 6.  A loading indicator is displayed while files are being parsed.
 
-#### Epic 2: Schema Discovery & Query Builder UI
+### Epic 2: Schema Discovery & Query Builder UI
 
 **Goal:** The goal of this epic is to analyze all loaded data to discover the complete schema and present it to the user. It will also deliver a fully interactive query builder UI, allowing users to construct complex filtering logic using the discovered schema keys. At the end of this epic, the application will have a complete in-memory representation of the user's desired filter, ready to be executed in Epic 3.
 
@@ -237,7 +237,7 @@ The testing strategy should include both `Unit tests` for individual functions (
 4.  The UI clearly visualizes the nesting and logic of the rules and groups (e.g., through indentation and borders).
 5.  As the user builds the query, a corresponding JSON representation of the query is maintained in the application's state.
 
-#### Epic 3: Data Filtering & Results Display
+### Epic 3: Data Filtering & Results Display
 
 **Goal:** The goal of this epic is to implement the client-side filtering engine that executes the user's query. It will then display the matching results in a performant, readable, and aesthetically pleasing interface, completing the core user journey.
 
@@ -287,16 +287,16 @@ The testing strategy should include both `Unit tests` for individual functions (
 3.  Scrolling through a large number of results is smooth and does not lag.
 4.  The application's memory usage remains reasonable even when displaying a subset of a very large result set.
 
-### 7. Checklist Results Report
+## 7. Checklist Results Report
 
-#### Executive Summary
+### Executive Summary
 
 *   **Overall PRD Completeness:** 95%
 *   **MVP Scope Appropriateness:** Just Right
 *   **Readiness for Architecture Phase:** Ready
 *   **Most Critical Gaps or Concerns:** The PRD is very strong. The only minor gap is the lack of explicit definition for scope boundaries (what is explicitly *out* of scope for the MVP), but this is implied by the tightly focused feature set and can be clarified with the Architect.
 
-#### Category Analysis
+### Category Analysis
 
 | Category | Status | Critical Issues |
 | :--- | :--- | :--- |
@@ -310,22 +310,22 @@ The testing strategy should include both `Unit tests` for individual functions (
 | 8. Cross-Functional Requirements | PARTIAL | Data, Integration, and Operational requirements are not explicitly detailed but are simple and implied by the client-side architecture. This is acceptable for this project's scope. |
 | 9. Clarity & Communication | PASS | The document is clear, well-structured, and uses consistent language. |
 
-#### Top Issues by Priority
+### Top Issues by Priority
 
 *   **BLOCKERS:** None.
 *   **HIGH:** None.
 *   **MEDIUM:** It would improve clarity to add a small section explicitly listing features that are "Out of Scope" for the MVP (e.g., user accounts, saving queries, sharing results).
 *   **LOW:** While not strictly necessary for this project, explicitly stating operational requirements like "deployment via static file copy" would add formal completeness.
 
-#### MVP Scope Assessment
+### MVP Scope Assessment
 
 The scope defined in the epics and stories is a perfect representation of a Minimum Viable Product. It is focused entirely on the core user journey of uploading, querying, and viewing data. There are no "nice-to-have" features included. The complexity is low, and the timeline for this scope seems realistic.
 
-#### Technical Readiness
+### Technical Readiness
 
 The technical constraints are exceptionally clear, particularly the mandate for a vanilla JS, single-file architecture. This provides strong guidance for the Architect. There are no major technical risks identified, as the chosen technologies are well-understood. The primary area for architectural investigation will be selecting the optimal performance strategy for the results view (pagination vs. virtual scrolling).
 
-#### Recommendations & Decision
+### Recommendations & Decision
 
 My recommendation is to add a brief "Out of Scope" section for clarity, but this is not a blocker. The PRD is comprehensive, the stories are well-defined, and the technical constraints are clear.
 
@@ -333,12 +333,12 @@ My recommendation is to add a brief "Out of Scope" section for clarity, but this
 
 ***
 
-### 8. Next Steps
+## 8. Next Steps
 
-#### 8.1 UX Expert Prompt
+### 8.1 UX Expert Prompt
 
 > Hello! I need a high-fidelity design and a component library for the "Interactive JSONL Explorer." Please use the attached PRD as the source of truth for all requirements and UI goals. The design must adhere to the "Operator Dark" theme, use a three-pane layout, and follow WCAG AA accessibility standards. The key user flows to design are the file upload (including drag-and-drop), the dynamic query builder, and the virtualized results view.
 
-#### 8.2 Architect Prompt
+### 8.2 Architect Prompt
 
 > Your task is to create a complete technical architecture and implementation plan for the "Interactive JSONL Explorer" based on the attached PRD. The architecture must strictly adhere to all technical assumptions, especially the requirement for a vanilla JavaScript, single-file HTML output with no runtime frameworks. Please provide a detailed breakdown of the components, data structures, and the proposed build process. Pay special attention to the client-side performance strategy for parsing and rendering large datasets.
