@@ -82,7 +82,7 @@ This table represents the definitive technology selection for the project. All d
 | :------------------- | :----------------- | :------ | :-------------------------------------------------- | :------------------------------------------------------------------------------- |
 | Frontend Language    | JavaScript (ES6+)  | ES2020+ | Core application logic                              | Meets the "vanilla JS" requirement. Modern features improve code quality.        |
 | Markup Language      | HTML5              | 5       | Application structure                               | Standard for modern web applications.                                            |
-| Styling              | CSS3               | 3       | UI styling and layout                               | Meets the "vanilla CSS" requirement. Flexbox and Grid for layout.              |
+| Styling              | CSS3               | 3       | UI styling and layout                               | Meets the "vanilla CSS" requirement. Flexbox, Grid, and media queries will be used for a fully responsive layout. |
 | Build Tool           | Vite               | Latest  | Development server, bundling, and inlining          | Provides a fast dev experience and a simple configuration for the single-file build. |
 | Frontend Testing     | Vitest             | Latest  | Unit and integration testing                        | Native to the Vite ecosystem, fast, and has a Jest-compatible API.                 |
 | E2E Testing          | Playwright         | Latest  | End-to-end testing of user flows                    | Provides reliable cross-browser testing for the complete application.            |
@@ -214,3 +214,53 @@ The testing strategy will follow the "Testing Pyramid" model to ensure confidenc
         5.  Assert that the results view updates and contains the correct, filtered entries.
 
 This tiered approach provides a robust safety net, catching bugs at the lowest possible level while validating the complete user experience.
+
+## 12. Coding Standards
+
+To ensure code consistency, readability, and maintainability, the project will adhere to the following standards.
+
+*   **Code Formatting:** All JavaScript and CSS code will be automatically formatted using **Prettier** upon saving. The specific rules are defined in the project's `.prettierrc` configuration file. This enforces a single, consistent style guide.
+
+*   **Code Quality:** **ESLint** will be used to statically analyze the code and identify potential problems. The ruleset, defined in `.eslintrc.js`, will be based on the recommended standards for modern JavaScript.
+
+*   **Naming Conventions:**
+    *   **JavaScript Modules/Files:** `camelCase.js` (e.g., `queryEngine.js`).
+    *   **JavaScript Classes/Components:** `PascalCase.js` (e.g., `ResultsView.js`).
+    *   **CSS Classes:** `kebab-case` (e.g., `.query-builder`).
+    *   **Variables & Functions:** `camelCase` (e.g., `const logEntries = ...`).
+
+*   **Documentation:** All but the most trivial functions should be documented using **JSDoc** comments to describe their purpose, parameters, and return values.
+
+## 11. Error Handling Strategy
+
+The application will handle errors gracefully to prevent crashes and provide clear feedback to the user.
+
+*   **File Parsing Errors:** The `FileParserService` (Web Worker) will wrap the `JSON.parse()` call in a `try...catch` block for each line.
+    *   If a line fails to parse, the worker will not terminate. Instead, it will increment an error counter and post a message to the main thread containing the source filename, line number, and error message.
+    *   Malformed lines will be ignored and excluded from the data set.
+
+*   **User Interface Feedback:**
+    *   The main UI will listen for these error messages from the parser.
+    *   A dedicated and clearly visible status area within the "Files & Schema" sidebar will explicitly report all file parsing errors to the end-user.
+    *   This status area will display a clear summary of the issues (e.g., "File `logs.jsonl`: Skipped 3 malformed lines."). The user will be able to click this summary to view more details about the specific line numbers and errors.
+    *   The developer console will still contain detailed logs of each parsing error for debugging purposes.
+
+This approach ensures the application remains robust and responsive, even with imperfect data, a core requirement from the PRD.
+
+## 10. Accessibility (A11y) Strategy
+
+The application will adhere to Web Content Accessibility Guidelines (WCAG) 2.1 Level AA standards, as required by the PRD. Accessibility is a primary consideration and will be integrated throughout the development lifecycle.
+
+*   **Semantic HTML:** Components will be constructed using semantic HTML5 elements (`<nav>`, `<main>`, `<button>`, `<input>`, etc.) to ensure a meaningful and navigable structure for assistive technologies. Non-semantic elements (`div`, `span`) will be reserved for styling purposes.
+
+*   **ARIA Roles & Attributes:** Where the semantics of dynamic components cannot be fully conveyed by native HTML, appropriate ARIA (Accessible Rich Internet Applications) roles and attributes will be used. This includes `role="status"` for announcing updates, `aria-live` regions for dynamic content, and attributes like `aria-label` for clarifying control purposes.
+
+*   **Keyboard Navigation:** All interactive elements—including file upload controls, query builder inputs, buttons, and result entries—will be fully operable via the keyboard. A logical and predictable focus order will be maintained throughout the application.
+
+*   **Focus Management:** Clear and visible focus indicators will be present on all focusable elements. For UI components that appear and disappear, such as modals or dropdowns, focus will be managed programmatically to ensure a seamless experience for keyboard users.
+
+*   **Color Contrast:** The "Operator Dark" theme will be implemented with color combinations that meet or exceed the WCAG AA contrast ratio of 4.5:1 for all text and UI components.
+
+*   **Testing Strategy:**
+    *   **Automated:** An accessibility testing library (e.g., `axe-core`) will be integrated into the Playwright E2E test suite to automatically catch common violations during testing.
+    *   **Manual:** Regular manual testing will be performed using keyboard-only navigation and screen readers (e.g., NVDA, VoiceOver) to ensure a high-quality, usable experience for all users.
